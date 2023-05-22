@@ -24,6 +24,7 @@ namespace WapplerSystems\WsLess\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Log\Logger;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -74,9 +75,10 @@ class RenderPreProcessorHook
 
         $defaultOutputDir = 'typo3temp/assets/css/';
 
-        $sitePath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+        $sitePath = Environment::getPublicPath() . '/';
 
-        $setup = $GLOBALS['TSFE']->tmpl->setup;
+        $configurationManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Configuration\ConfigurationManager::class);
+        $setup = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
         if (\is_array($setup['plugin.']['tx_wsless.']['variables.'])) {
 
             $variables = $setup['plugin.']['tx_wsless.']['variables.'];
